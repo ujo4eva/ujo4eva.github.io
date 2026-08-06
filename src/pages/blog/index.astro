@@ -2,23 +2,16 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
-const posts = await getCollection('blog');
+const posts = await getCollection('blog', ({ data }) => !data.draft);
 const sorted = posts.sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
 ---
 
-<Layout title="Blog — ujo4eva">
+<Layout title="Blog — ujo4eva" description="Blog posts from Osadebamwen Uwadiae — audio engineering, tech, fitness, and culture.">
   <main class="min-h-screen bg-zinc-950 text-white px-6 py-24">
     <div class="max-w-2xl mx-auto">
-      <a
-        href="/"
-        class="inline-block text-zinc-400 hover:text-white transition-colors mb-12"
-      >
-        &larr; Back home
-      </a>
-
-      <h1 class="text-4xl sm:text-5xl font-bold mb-12 tracking-tight">Blog</h1>
+      <h1 class="text-4xl sm:text-5xl font-bold mb-12 pt-10 tracking-tight">Blog</h1>
 
       {sorted.length === 0 && (
         <p class="text-zinc-500">No posts yet. Check back soon.</p>

@@ -3,7 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
   return posts.map((post) => ({
     params: { slug: post.id },
     props: { post },
@@ -14,17 +14,10 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<Layout title={`${post.data.title} — ujo4eva`}>
+<Layout title={`${post.data.title} — ujo4eva`} description={post.data.description}>
   <main class="min-h-screen bg-zinc-950 text-white px-6 py-24">
     <article class="max-w-2xl mx-auto">
-      <a
-        href="/blog"
-        class="inline-block text-zinc-400 hover:text-white transition-colors mb-12"
-      >
-        &larr; Back to blog
-      </a>
-
-      <h1 class="text-4xl sm:text-5xl font-bold mb-3 tracking-tight">
+      <h1 class="text-4xl sm:text-5xl font-bold mb-3 pt-10 tracking-tight">
         {post.data.title}
       </h1>
 
