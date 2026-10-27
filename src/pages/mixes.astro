@@ -4,7 +4,7 @@ import Layout from '../layouts/Layout.astro';
 
 const mixes = await getCollection('mixes');
 const sorted = mixes.sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  (a, b) => a.data.order - b.data.order,
 );
 ---
 
@@ -20,8 +20,10 @@ const sorted = mixes.sort(
 
       <div class="grid gap-8 sm:grid-cols-2">
         {sorted.map((mix) => (
-          <div class="border border-zinc-800 rounded-2xl p-5 bg-zinc-900/40">
-            <h2 class="text-lg font-semibold text-white">{mix.data.title}</h2>
+          <div id={`mix-${mix.id}`} class="border border-zinc-800 rounded-2xl p-5 bg-zinc-900/40">
+            <h2 class="text-lg font-semibold text-white">
+              {mix.data.order}. {mix.data.title}
+            </h2>
             <p class="text-zinc-400 text-sm mt-0.5 mb-4">
               {mix.data.artist}
               {mix.data.genre && <span class="text-zinc-600"> · {mix.data.genre}</span>}

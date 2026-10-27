@@ -17,6 +17,7 @@ const mixes = defineCollection({
     title: z.string(),
     artist: z.string(),
     date: z.date(),
+    order: z.number().int().positive(),
     embedUrl: z.string().url(),
     genre: z.string().optional(),
     description: z.string().optional(),
@@ -31,6 +32,7 @@ const videos = defineCollection({
     videoUrl: z.string().url(),
     role: z.enum(['edited', 'graded', 'edited & graded']),
     description: z.string().optional(),
+    draft: z.boolean().optional().default(false),
   }),
 });
 
