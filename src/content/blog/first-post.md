@@ -2,6 +2,7 @@
 title: First Post
 description: Testing the blog setup
 date: 2026-07-16
+draft: true
 ---
 
 This is my first blog post. Written in markdown, pushed, and it just works.

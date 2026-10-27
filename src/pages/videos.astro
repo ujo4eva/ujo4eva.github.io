@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
-const videos = await getCollection('videos');
+const videos = await getCollection('videos', ({ data }) => !data.draft);
 
 function getYouTubeId(url: string): string | null {
   const match = url.match(

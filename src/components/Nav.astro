@@ -1,12 +1,19 @@
 ---
+import { getCollection } from "astro:content";
+
 const pathname = Astro.url.pathname;
 
+const mixes = await getCollection("mixes");
+const videos = await getCollection("videos", ({ data }) => !data.draft);
+const projects = await getCollection("projects");
+const posts = await getCollection("blog", ({ data }) => !data.draft);
+
 const links = [
-  { href: "/mixes", label: "Mixes" },
-  { href: "/videos", label: "Videos" },
-  { href: "/projects", label: "Projects" },
-  { href: "/blog", label: "Blog" },
-];
+  mixes.length > 0 && { href: "/mixes", label: "Mixes" },
+  videos.length > 0 && { href: "/videos", label: "Videos" },
+  projects.length > 0 && { href: "/projects", label: "Projects" },
+  posts.length > 0 && { href: "/blog", label: "Blog" },
+].filter((link): link is { href: string; label: string } => Boolean(link));
 ---
 
 <header class="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-zinc-950/80 backdrop-blur">
