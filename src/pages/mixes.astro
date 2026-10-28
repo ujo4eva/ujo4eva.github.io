@@ -3,6 +3,19 @@ import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
 const mixes = await getCollection('mixes');
+
+// Fail the build if two mixes share an order number.
+const seen = new Map<number, string>();
+for (const mix of mixes) {
+  const other = seen.get(mix.data.order);
+  if (other) {
+    throw new Error(
+      `Mixes "${other}" and "${mix.id}" both have order ${mix.data.order}`,
+    );
+  }
+  seen.set(mix.data.order, mix.id);
+}
+
 const sorted = mixes.sort(
   (a, b) => a.data.order - b.data.order,
 );
